@@ -1,0 +1,103 @@
+Algoritmo calculadora
+
+PROCEDIMIENTO PresentaMenu()
+COMIENZA
+    ESCRIBIR "Ingresa una de las siguientes opciones:"
+    ESCRIBIR "1 Para realizar una Operacion"
+    ESCRIBIR "2 Para Salir" 
+TERMINA
+
+
+entero FUNCION LeeRespuesta()
+VAR entero: respuesta
+COMIENZA
+    HAZ
+        LEER respuesta
+    MIENTRAS((respuesta != OPERACION) Y (respuesta != SALIR))
+
+    REGRESA(respuesta)
+TERMINA
+
+
+PROCEDIMIENTO LeeOperador(dir(opr))
+
+COMIENZA
+    HAZ
+        LEER opr
+    MIENTRAS((opr != '+') Y (opr != '-') Y (opr != '*') Y (opr != '/'))
+TERMINA
+
+
+entero FUNCION LeeOperando()
+VAR entero: num
+COMIENZA
+    LEER num
+    REGRESA(num)
+TERMINA
+
+
+entero FUNCION LeeOperandoNoCero()
+VAR entero: num
+COMIENZA
+    HAZ
+        LEER num
+        SI(num == 0) ENTONCES
+	    ESCRIBIR ERROR!Ingresa nuevamente el denominador"
+        FINSI
+    MIENTRAS(num == 0)
+    REGRESA(num)
+TERMINA
+	
+
+PROCEDIMIENTO Aplica(REF res, entero op1, char opr, entero op2)
+
+COMIENZA
+    SI(opr == '+') ENTONCES
+        res <--- op1 + op2
+	OTRO SI(opr == '-') ENTONCES
+	    res <--- op1 - op2
+	OTRO SI(opr == '*') ENTONCES	
+            res <--- op1 * op2
+	OTRO
+            res <--- op1 / op2
+    FINSI	     
+TERMINA
+
+
+PROCEDIMIENTO Calculadora()
+VAR entero: op1, op2, respuesta
+VAR char: operador
+
+COMIENZA
+    ESCRIBIR "INGRESA LA OPERACION A REALIZAR:"
+    ESCRIBIR "+ (suma), - (resta), * (producto) y / (división):"
+    LeeOperador(dir(operador))
+    ESCRIBIR "Ingresa el primer número"
+    op1 <--- LeeOperando()
+
+    SI(operador == '/') ENTONCES
+        op2 <--- LeeOperandoNoCero()
+    OTRO
+        op2 <--- LeeOperando()
+    FINSI
+    Aplica(dir(respuesta),op1, operador, op2)
+    ESCRIBIR  "op1, operador, op2, "=", respuesta"
+
+TERMINA
+
+
+PROCEDIMIENTO PRINCIPAL()
+CONST OPERACION 1
+CONST SALIR 2
+
+VAR entero: resp
+
+COMIENZA
+    HAZ
+        PresentaMenu()
+	resp <--- LeeRespuesta()
+	SI (resp == OPERACION) ENTONCES
+	    Calculadora()
+	FINSI
+    MIENTRAS (resp != SALIR)
+TERMINA
